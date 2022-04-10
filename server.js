@@ -1,9 +1,17 @@
-const http = require('http');
-// require('dotenv').config()
+const express = require('express');
+const app = express();
 const port = 80;
-const server = http.createServer((req, res)=>{
-    res.end('Hello World')
+const router = require('./router/route')
+const path = require('path');
+app.use(express.static('./static'))
+app.use('/api', router)
+
+app.get('/', (req, res)=>{
+    res.sendFile(path.resolve(__dirname, "./static/index.html"))
 })
-server.listen(port, ()=>{
-    console.log(`Server is up and runnning on port ${port}`);
+app.get('/about', (req, res)=>{
+    res.sendFile(path.resolve(__dirname, "./static/about.html"))
+})
+app.listen(port, ()=>{
+    console.log(`User hit the server ${port}`);
 })
